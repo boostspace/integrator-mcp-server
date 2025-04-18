@@ -4,22 +4,22 @@ import { Integrator } from '../src/integrator.js';
 enableFetchMocks();
 beforeEach(() => fetchMock.resetMocks());
 
-const MAKE_API_KEY = 'api-key';
-const MAKE_ZONE = 'make.local';
-const MAKE_TEAM = 1;
+const INTEGRATOR_API_KEY = 'api-key';
+const INTEGRATOR_BASE_URL = 'integrator.local';
+const INTEGRATOR_TEAM = 1;
 
 import * as scenariosMock from './mocks/scenarios.json';
 import * as interfaceMock from './mocks/interface.json';
 import * as runMock from './mocks/run.json';
 import * as runErrorMock from './mocks/run-error.json';
-import { MakeError, remap } from '../src/utils.js';
+import { IntegratorError, remap } from '../src/utils.js';
 
-describe('Make SDK', () => {
-    const make = new Make(MAKE_API_KEY, MAKE_ZONE);
+describe('Integrator SDK', () => {
+    const integrator = new Integrator(INTEGRATOR_API_KEY, 2, INTEGRATOR_BASE_URL);
 
     it('Should get list of scenarios', async () => {
         fetchMock.mockResponse(req => {
-            if (req.url !== 'https://make.local/api/v2/scenarios?teamId=1&pg[limit]=1000')
+            if (req.url !== 'https://integrator.local/api/v2/scenarios?teamId=1&pg[limit]=1000')
                 throw new Error(`Unmocked HTTP request: ${req.url}`);
 
             return Promise.resolve({
@@ -30,12 +30,12 @@ describe('Make SDK', () => {
             });
         });
 
-        expect(await make.scenarios.list(MAKE_TEAM)).toStrictEqual(scenariosMock.scenarios);
+        expect(await integrator.scenarios.list(INTEGRATOR_TEAM)).toStrictEqual(scenariosMock.scenarios);
     });
 
     it('Should get scenario interface', async () => {
         fetchMock.mockResponse(req => {
-            if (req.url !== 'https://make.local/api/v2/scenarios/1/interface')
+            if (req.url !== 'https://integrator.local/api/v2/scenarios/1/interface')
                 throw new Error(`Unmocked HTTP request: ${req.url}`);
 
             return Promise.resolve({
@@ -46,12 +46,12 @@ describe('Make SDK', () => {
             });
         });
 
-        expect(await make.scenarios.interface(1)).toStrictEqual(interfaceMock.interface);
+        expect(await integrator.scenarios.interface(1)).toStrictEqual(interfaceMock.interface);
     });
 
     it('Should run scenario', async () => {
         fetchMock.mockResponse(req => {
-            if (req.url !== 'https://make.local/api/v2/scenarios/1/run')
+            if (req.url !== 'https://integrator.local/api/v2/scenarios/1/run')
                 throw new Error(`Unmocked HTTP request: ${req.url}`);
 
             return Promise.resolve({
@@ -62,12 +62,12 @@ describe('Make SDK', () => {
             });
         });
 
-        expect(await make.scenarios.run(1, {})).toStrictEqual(runMock);
+        expect(await integrator.scenarios.run(1, {})).toStrictEqual(runMock);
     });
 
     it('Should handle error in scenario run', async () => {
         fetchMock.mockResponse(req => {
-            if (req.url !== 'https://make.local/api/v2/scenarios/1/run')
+            if (req.url !== 'https://integrator.local/api/v2/scenarios/1/run')
                 throw new Error(`Unmocked HTTP request: ${req.url}`);
 
             return Promise.resolve({
@@ -80,10 +80,10 @@ describe('Make SDK', () => {
         });
 
         try {
-            await make.scenarios.run(1, {});
+            await integrator.scenarios.run(1, {});
             throw new Error('Should throw an error.');
         } catch (err: unknown) {
-            if (!(err instanceof MakeError)) throw new Error('Should throw MakeError.');
+            if (!(err instanceof IntegratorError)) throw new Error('Should throw MakeError.');
 
             expect(err.name).toBe('MakeError');
             expect(err.message).toBe('Validation failed for 1 parameter(s).');
