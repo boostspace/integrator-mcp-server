@@ -58,7 +58,7 @@ export class Make {
     async fetch<T = any>(url: string, options?: RequestInit): Promise<T> {
         options = Object.assign({}, options, {
             headers: Object.assign({}, options?.headers, {
-                'user-agent': 'MakeMCPServer/0.1.0',
+                'user-agent': 'IntegratorMCPServer/0.1.0',
                 authorization: `Token ${this.#apiKey}`,
             }),
         });
