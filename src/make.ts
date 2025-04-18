@@ -47,7 +47,7 @@ export class Make {
     public readonly version: number;
     public readonly scenarios: Scenarios;
 
-    constructor(apiKey: string, zone: string, version = 2) {
+    constructor(apiKey: string, version = 2) {
         this.#apiKey = apiKey;
         this.zone = zone;
         this.version = version;
