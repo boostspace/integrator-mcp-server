@@ -3,12 +3,12 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
-import { Make } from './make.js';
+import { Integrator } from 'src/integrator.js';
 import { remap } from './utils.js';
 
 const server = new Server(
     {
-        name: 'Make',
+        name: 'Boost.space',
         version: '0.1.0',
     },
     {
@@ -18,30 +18,26 @@ const server = new Server(
     },
 );
 
-if (!process.env.MAKE_API_KEY) {
-    console.error('Please provide MAKE_API_KEY environment variable.');
+if (!process.env.INTEGRATOR_API_KEY) {
+    console.error('Please provide INTEGRATOR_API_KEY environment variable.');
     process.exit(1);
 }
-if (!process.env.MAKE_ZONE) {
-    console.error('Please provide MAKE_ZONE environment variable.');
-    process.exit(1);
-}
-if (!process.env.MAKE_TEAM) {
-    console.error('Please provide MAKE_TEAM environment variable.');
+if (!process.env.INTEGRATOR_TEAM) {
+    console.error('Please provide INTEGRATOR_TEAM environment variable.');
     process.exit(1);
 }
 
-const make = new Make(process.env.MAKE_API_KEY, process.env.MAKE_ZONE);
-const teamId = parseInt(process.env.MAKE_TEAM);
+const integrator = new Integrator(process.env.INTEGRATOR_API_KEY);
+const teamId = parseInt(process.env.INTEGRATOR_TEAM);
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
-    const scenarios = await make.scenarios.list(teamId);
+    const scenarios = await integrator.scenarios.list(teamId);
     return {
         tools: await Promise.all(
             scenarios
                 .filter(scenario => scenario.scheduling.type === 'on-demand')
                 .map(async scenario => {
-                    const inputs = (await make.scenarios.interface(scenario.id)).input;
+                    const inputs = (await integrator.scenarios.interface(scenario.id)).input;
                     return {
                         name: `run_scenario_${scenario.id}`,
                         description: scenario.name + (scenario.description ? ` (${scenario.description})` : ''),
@@ -60,7 +56,7 @@ server.setRequestHandler(CallToolRequestSchema, async request => {
     if (/^run_scenario_\d+$/.test(request.params.name)) {
         try {
             const output = (
-                await make.scenarios.run(parseInt(request.params.name.substring(13)), request.params.arguments)
+                await integrator.scenarios.run(parseInt(request.params.name.substring(13)), request.params.arguments)
             ).outputs;
 
             return {
