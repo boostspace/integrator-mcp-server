@@ -43,7 +43,6 @@ class Scenarios {
 
 export class Integrator {
     readonly #apiKey: string;
-    public readonly zone: string;
     public readonly version: number;
     public readonly scenarios: Scenarios;
 
