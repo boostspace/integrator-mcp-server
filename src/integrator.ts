@@ -5,7 +5,7 @@ import type {
     ScenarioRunServerResponse,
     ScenariosServerResponse,
 } from './types.js';
-import { createMakeError } from './utils.js';
+import { createIntegratorError } from './utils.js';
 
 type Fetch = <T = any>(url: string, options?: RequestInit) => Promise<T>;
 
@@ -44,10 +44,12 @@ class Scenarios {
 export class Integrator {
     readonly #apiKey: string;
     public readonly version: number;
+    public readonly baseUrl: string;
     public readonly scenarios: Scenarios;
 
-    constructor(apiKey: string, version = 2) {
+    constructor(apiKey: string, version = 2, baseUrl: string = "integrator.boost.space") {
         this.#apiKey = apiKey;
+        this.baseUrl = baseUrl;
         this.version = version;
 
         this.scenarios = new Scenarios(this.fetch.bind(this));
@@ -65,13 +67,13 @@ export class Integrator {
             if (url.charAt(1) === '/') {
                 url = `https:${url}`;
             } else {
-                url = `https://integrator.boost.space/api/v${this.version}${url}`;
+                url = `https://${this.baseUrl}/api/v${this.version}${url}`;
             }
         }
 
         const res = await fetch(url, options);
         if (res.status >= 400) {
-            throw await createMakeError(res);
+            throw await createIntegratorError(res);
         }
 
         const contentType = res.headers.get('content-type');

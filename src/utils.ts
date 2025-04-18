@@ -12,14 +12,14 @@ const PRIMITIVE_TYPE_MAP = {
     json: 'string',
 };
 
-export class MakeError extends Error {
+export class IntegratorError extends Error {
     statusCode?: number;
     subErrors?: string[];
 
     constructor(message: string, statusCode?: number) {
         super(message);
 
-        this.name = 'MakeError';
+        this.name = 'IntegratorError';
         this.statusCode = statusCode;
     }
 
@@ -28,12 +28,12 @@ export class MakeError extends Error {
     }
 }
 
-export async function createMakeError(res: Response): Promise<MakeError> {
+export async function createIntegratorError(res: Response): Promise<IntegratorError> {
     try {
         const body: unknown = await res.clone().json();
         if (isObject(body) && 'message' in body && typeof body.message === 'string') {
             const message = 'detail' in body && typeof body.detail === 'string' ? body.detail : body.message;
-            const err = new MakeError(message, res.status);
+            const err = new IntegratorError(message, res.status);
             if ('suberrors' in body && Array.isArray(body.suberrors)) {
                 err.subErrors = body.suberrors
                     .filter(suberr => {
@@ -49,7 +49,7 @@ export async function createMakeError(res: Response): Promise<MakeError> {
         // Do nothing.
     }
 
-    return new MakeError(res.statusText, res.status);
+    return new IntegratorError(res.statusText, res.status);
 }
 
 function noEmpty(text: string | undefined): string | undefined {
