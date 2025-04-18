@@ -1,7 +1,7 @@
 {
     "name": "@boostspace/mcp-server",
     "version": "0.5.0",
-    "description": "MCP server for interacting with Make automations",
+    "description": "MCP server for interacting with Integrator automations",
     "license": "MIT",
     "author": "Make",
     "repository": "github:integromat/make-mcp-server",
