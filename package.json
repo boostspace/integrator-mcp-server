@@ -1,5 +1,5 @@
 {
-    "name": "@boostspace/mcp-server",
+    "name": "@boostspace/integrator-mcp-server",
     "version": "0.1.0",
     "description": "MCP server for interacting with Integrator automations",
     "license": "MIT",
