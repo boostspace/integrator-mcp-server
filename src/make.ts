@@ -48,7 +48,6 @@ export class Integrator {
 
     constructor(apiKey: string, version = 2) {
         this.#apiKey = apiKey;
-        this.zone = zone;
         this.version = version;
 
         this.scenarios = new Scenarios(this.fetch.bind(this));
