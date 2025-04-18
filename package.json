@@ -8,7 +8,7 @@
     "homepage": "https://boost.space",
     "type": "module",
     "bin": {
-        "mcp-server-make": "build/index.js"
+        "mcp-server-integrator": "build/index.js"
     },
     "files": [
         "build"
