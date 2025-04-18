@@ -2,6 +2,9 @@
 
 A Model Context Protocol server that enables Integrator scenarios to be utilized as tools by AI assistants. This integration allows AI systems to trigger and interact with your Integrator automation workflows.
 
+> **Note**: This project is a fork of software originally developed by **Make** (MIT licensed).  
+> It has been modified and is maintained by **Boost.space**.
+
 ## How It Works
 
 The MCP server:
