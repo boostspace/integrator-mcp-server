@@ -89,7 +89,7 @@ describe('Integrator SDK', () => {
             expect(err.message).toBe('Validation failed for 1 parameter(s).');
             expect(err.subErrors).toEqual(["Missing value of required parameter 'number'."]);
             expect(String(err)).toEqual(
-                "MakeError: Validation failed for 1 parameter(s).\n - Missing value of required parameter 'number'.",
+                "IntegratorError: Validation failed for 1 parameter(s).\n - Missing value of required parameter 'number'.",
             );
         }
     });
