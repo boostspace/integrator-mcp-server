@@ -8,8 +8,8 @@ import { remap } from './utils.js';
 
 const server = new Server(
     {
-        name: 'Boost.space',
-        version: '0.1.0',
+        name: 'Boost.space Integrator',
+        version: '0.1.1',
     },
     {
         capabilities: {
