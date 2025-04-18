@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach } from '@jest/globals';
 import { enableFetchMocks } from 'jest-fetch-mock';
-import { Make } from '../src/make.js';
+import { Integrator } from '../src/integrator.js';
 enableFetchMocks();
 beforeEach(() => fetchMock.resetMocks());
 
