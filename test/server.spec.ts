@@ -85,7 +85,7 @@ describe('Integrator SDK', () => {
         } catch (err: unknown) {
             if (!(err instanceof IntegratorError)) throw new Error('Should throw IntegratorError.');
 
-            expect(err.name).toBe('MakeError');
+            expect(err.name).toBe('IntegratorError');
             expect(err.message).toBe('Validation failed for 1 parameter(s).');
             expect(err.subErrors).toEqual(["Missing value of required parameter 'number'."]);
             expect(String(err)).toEqual(
