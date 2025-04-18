@@ -41,7 +41,7 @@ class Scenarios {
     }
 }
 
-export class Make {
+export class Integrator {
     readonly #apiKey: string;
     public readonly zone: string;
     public readonly version: number;
