@@ -83,7 +83,7 @@ describe('Integrator SDK', () => {
             await integrator.scenarios.run(1, {});
             throw new Error('Should throw an error.');
         } catch (err: unknown) {
-            if (!(err instanceof IntegratorError)) throw new Error('Should throw MakeError.');
+            if (!(err instanceof IntegratorError)) throw new Error('Should throw IntegratorError.');
 
             expect(err.name).toBe('MakeError');
             expect(err.message).toBe('Validation failed for 1 parameter(s).');
