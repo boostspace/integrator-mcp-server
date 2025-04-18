@@ -37,7 +37,7 @@ To use this server with the Claude Desktop app, add the following configuration 
     "mcpServers": {
         "integrator": {
             "command": "npx",
-            "args": ["-y", "@boostspace/mcp-server"],
+            "args": ["-y", "@boostspace/integrator-mcp-server"],
             "env": {
                 "INTEGRATOR_API_KEY": "<your-api-key>",
                 "INTEGRATOR_TEAM": "<your-team-id>"
